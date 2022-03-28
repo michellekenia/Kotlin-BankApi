@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/conta")
+@RequestMapping(/* ...value = */ "conta")
 class ContaController(private val repository: ContaRepository) {
 
     @PostMapping
@@ -21,13 +21,13 @@ class ContaController(private val repository: ContaRepository) {
     @GetMapping
     fun getAll(): List<Conta> = repository.findAll()
 
-    @GetMapping("/{id}")
+    @GetMapping(/* ...value = */ "{id}")
     fun getbyId(@PathVariable id: Long): ResponseEntity<Conta> =
         repository.findById(id).map {
             ResponseEntity.ok(it)
         }.orElse(ResponseEntity.notFound().build())
 
-    @PutMapping("/{id}")
+    @PutMapping(/* ...value = */ "{id}")
     fun update(@PathVariable id: Long, @RequestBody conta: Conta): ResponseEntity<Conta> =
         repository.findById(id).map {
             val contaToUpdate = it.copy(
@@ -38,7 +38,7 @@ class ContaController(private val repository: ContaRepository) {
             ResponseEntity.ok(repository.save(contaToUpdate))
         }.orElse(ResponseEntity.notFound().build())
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping(/* ...value = */ "{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Void> =
         repository.findById(id).map {
             repository.delete(it)
